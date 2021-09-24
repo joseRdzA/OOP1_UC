@@ -20,6 +20,7 @@ public class Main {
 
 
         int entero = 2;
+        int edad = 18;
         float flotante = 2.5f;
         String cadenaCaracteres = "2";
         Integer entero2 = 2;
@@ -37,6 +38,12 @@ public class Main {
             System.out.println("Es el numero correcto");
         } else {
             System.out.println("No es el numero correcto");
+        }
+
+        if (edad>= 18) {
+            System.out.println("Es mayor de edad");
+        } else {
+            System.out.println("No es mayor de edad");
         }
 
         if (entero == 2) {
@@ -57,11 +64,16 @@ public class Main {
         }
 
         //Loops
-       /* int i = 0;
-        while (1 < 10) {
-            System.out.println("Por aquí voy: " + i);
+        int i = 0;
+        while (i < 10){
+            System.out.println("Por aqui voy: " + i);
             i = i + 1;
-        }*/
+        }
+
+        for (int j = 0; j < 10; j++) {
+            System.out.println("Por aqui va el otro: " + j);
+        }
+
 
         /*for(int j = 0; j<10; j++){
             System.out.println("Por aquí va el otro" + j);
