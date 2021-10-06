@@ -55,9 +55,7 @@ public class Main {
 
             registro.addMovimiento(nuevoGasto);*/
 
-       /* for (int i = 0; i<registro.getGastos().size(); i++){
-            System.out.println(registro.getGastos().get(i).getNombre());
-        }*/
+
 
         /*for (Gasto gastico :registro.getGastos()){
             //declaro primero la variable
