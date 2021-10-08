@@ -13,15 +13,17 @@ public class Movimiento {
     private Date fecha;
 
     //Constructor
-    public Movimiento(String nombre, String moneda, String categoria, int monto){
+    public Movimiento(String nombre, String moneda, String categoria, int monto) {
         this.nombre = nombre;
-        this.moneda=moneda;
-        this.categoria=categoria;
-        this.monto=monto;
-        this.fecha=new Date(); //pone el momento actual
+        this.moneda = moneda;
+        this.categoria = categoria;
+        this.monto = monto;
+        this.fecha = new Date(); //pone el momento actual
     }
 
     public String getNombre() {
         return this.nombre;
-    }
+    } //comportamiento es este, retornar nomnre pero en ingreso hace otra cosa
+
+
 }

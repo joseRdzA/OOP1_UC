@@ -1,9 +1,8 @@
 package com.Presupuesto;
 
-import com.Presupuesto.entidades.Gasto;
-import com.Presupuesto.entidades.Ingreso;
+import com.Presupuesto.LogicaNegocio.ImplementacionSuperDymmy;
+import com.Presupuesto.LogicaNegocio.InterfaceRegistro;
 import com.Presupuesto.entidades.Movimiento;
-import com.Presupuesto.entidades.RegistroMovimientos;
 
 import java.util.Scanner;
 
@@ -14,7 +13,14 @@ public class Main {
         System.out.println("Sistema Registro de Movimientos");
         Scanner consola = new Scanner(System.in);
         boolean siga = true;
-        RegistroMovimientos registro = new RegistroMovimientos();
+        System.out.println("Que quiere usar? fake? (F)");
+        InterfaceRegistro registro;
+        if(consola.nextLine().equals("F")){
+            registro = new ImplementacionSuperDymmy();
+        } else{
+            registro = new ImplementacionSuperDymmy();
+        }
+
         while (siga) {
 
             System.out.println("Digite el nombre de su movimiento:");
@@ -28,61 +34,31 @@ public class Main {
 
             System.out.println("Digite el monto de su movimiento:");
             String montoStr = consola.nextLine();
-            int monto = Integer.parseInt(montoStr);
 
-
-            Movimiento nuevoMovimiento;
 
             System.out.println("Indique si es un gasto (S)");
-            if(consola.nextLine().equals("S")){
-                nuevoMovimiento = new Gasto(nombre,
-                        moneda, categoria, monto);
+            if (consola.nextLine().equals("S")) {
+                registro.addGasto(nombre,moneda,categoria,montoStr);
             } else {
                 System.out.println("Especifique la perioricidad: ");
                 String perioricidad = consola.nextLine();
-                nuevoMovimiento = new Ingreso(nombre,
-                        moneda, categoria,
-                        monto,perioricidad);
+                registro.addIngreso(nombre,
+                        moneda,
+                        categoria,
+                        montoStr,
+                        perioricidad);
             }
 
-            registro.addMovimiento(nuevoMovimiento);
 
-
-            //Instanciar un objeto para poder usar la clase. El objeto es una clase instanciada y agarra lo que tengo en la clase y le asigna memoria.
-
-           /* Gasto nuevoGasto = new Gasto(nombre,
-                    moneda, categoria, monto);
-
-            registro.addMovimiento(nuevoGasto);*/
-
-
-
-        /*for (Gasto gastico :registro.getGastos()){
-            //declaro primero la variable
-            System.out.println(gastico.getNombre());
-        }*/
-
-        /*for(Gasto gastico : registro.getGastos()){
-        * System.out.pprintln(gastico.getNombre());
-        }*/
             System.out.println("Todos los movimientos");
-            for(Movimiento movimientos : registro.getMovimientos()){
-                System.out.println(movimientos.getNombre());
+            registro.getMovimientos();
 
-            }
-
-
-            for (Movimiento gastico : registro.getMovimientos()) {
-                System.out.println(gastico.getNombre());
-
-                System.out.println("Quiere seguir? ('S')");
-                siga = consola.nextLine().equals("S");
-            }
-
+            System.out.println("Solo los gastos");
+            registro.getGastos();
+            System.out.println("Quiere seguir? (S)");
+            siga = consola.nextLine().equals("S");
 
 
         }
-
-
     }
 }
