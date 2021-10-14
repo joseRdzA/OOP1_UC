@@ -11,4 +11,9 @@ public class Gasto extends Movimiento {
         super(nombre, moneda, categoria, monto);
     }
 
+    @Override
+    public String getDetails() {
+        return "GASTO: " + this.getNombre() + " - " + this.getMoneda() + " - " +  this.getCategoria() + " - " + this.getMonto();
+    }
+
 }

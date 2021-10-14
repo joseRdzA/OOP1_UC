@@ -15,8 +15,14 @@ public class Ingreso extends Movimiento {
         En caso de tener un constructor con parámetros. Puedo quitar atributos porque ya existe en clase base*/
     }
 
-    @Override
+    /*@Override
     public String getNombre() { //esto es polimorfismo, retorna nombre pero agrega perioricidad
         return super.getNombre() + " " + this.perioricidad; //estoy llamando a get nombre y voy apuntar perioricidad
+    }*/
+
+    @Override
+    public String getDetails() {
+        return "INGRESO: " + this.getNombre() + " - " + this.getMoneda() + " - " + this.getCategoria() + " - " + this.getMonto() + " - " + this.perioricidad;
     }
 }
+

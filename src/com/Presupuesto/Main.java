@@ -3,6 +3,7 @@ package com.Presupuesto;
 import com.Presupuesto.LogicaNegocio.ImplementacionSuperDymmy;
 import com.Presupuesto.LogicaNegocio.InterfaceRegistro;
 import com.Presupuesto.entidades.Movimiento;
+import com.Presupuesto.ui.FrontEnd;
 
 import java.util.Scanner;
 
@@ -11,6 +12,9 @@ public class Main {
     public static void main(String[] args) {
 
         System.out.println("Sistema Registro de Movimientos");
+        FrontEnd fe = new FrontEnd("Sistema de Registro de Movimientos");
+        fe.build();
+        /*
         Scanner consola = new Scanner(System.in);
         boolean siga = true;
         System.out.println("Que quiere usar? fake? (F)");
@@ -22,6 +26,7 @@ public class Main {
         }
 
         while (siga) {
+
 
             System.out.println("Digite el nombre de su movimiento:");
             String nombre = consola.nextLine();
@@ -49,7 +54,6 @@ public class Main {
                         perioricidad);
             }
 
-
             System.out.println("Todos los movimientos");
             registro.getMovimientos();
 
@@ -59,6 +63,6 @@ public class Main {
             siga = consola.nextLine().equals("S");
 
 
-        }
+        } */
     }
 }

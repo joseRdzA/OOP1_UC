@@ -2,8 +2,8 @@ package com.Presupuesto.entidades;
 
 import java.util.Date;
 
-public class Movimiento {
-//paquetes minuscula y clases MAYUSCULA
+public abstract class Movimiento {
+
 
     //hacerlos privados para evitar manipulación de terceros. Nadie lo ve y no sale en el main, se crean get y set
     private String nombre;
@@ -21,9 +21,28 @@ public class Movimiento {
         this.fecha = new Date(); //pone el momento actual
     }
 
-    public String getNombre() {
+    //Metodo es el Abstracto
+    public abstract String getDetails();
+
+
+    // Defaults Gets
+    String getNombre(){
         return this.nombre;
-    } //comportamiento es este, retornar nomnre pero en ingreso hace otra cosa
+    }
 
+    String getMoneda() {
+        return moneda;
+    }
 
+    String getCategoria() {
+        return categoria;
+    }
+
+    int getMonto() {
+        return monto;
+    }
+
+    Date getFecha() {
+        return fecha;
+    }
 }
