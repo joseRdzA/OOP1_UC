@@ -2,7 +2,7 @@ package com.Presupuesto.ui;
 
 import com.Presupuesto.LogicaNegocio.ImplementacionRegistro;
 import com.Presupuesto.LogicaNegocio.InterfaceRegistro;
-import com.Presupuesto.LogicaNegocio.InterfaceReportes;
+import com.Presupuesto.repo.FileRepository;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +19,7 @@ public class FrontEnd extends JFrame {
     }
 
     public void build(){
+        InterfaceRegistro registo = new ImplementacionRegistro(new FileRepository());
 
         // Create Components
         JLabel lblNombre = new JLabel("Nombre");
@@ -41,7 +42,9 @@ public class FrontEnd extends JFrame {
 
         JButton salvar = new JButton("Salvar");
         JButton reporte = new JButton("Reporte");
-        InterfaceRegistro registo = new ImplementacionRegistro();
+
+        JLabel lblWarnings = new JLabel("");
+
 
 
         // ACTIONS
@@ -56,17 +59,27 @@ public class FrontEnd extends JFrame {
         salvar.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                boolean exitoso = false;
                 if (ckIsIngreso.isSelected()){
-                    registo.addIngreso(txtNombre.getText(),
+                    lblWarnings.setText("Salvando Ingreso");
+                     exitoso = registo.addIngreso(txtNombre.getText(),
                             txtMoneda.getText(),
                             txtCategoria.getText(),
                             txtMonto.getText(),
                             txtPeriodicidad.getText());
                 }else {
-                    registo.addGasto(txtNombre.getText(),
+                    lblWarnings.setText("Salvando Gasto");
+                   exitoso = registo.addGasto(txtNombre.getText(),
                             txtMoneda.getText(),
                             txtCategoria.getText(),
                             txtMonto.getText());
+                }
+                if(exitoso){
+                    txtMoneda.setText("");
+                    txtNombre.setText("");
+                    txtCategoria.setText("");
+                    txtMonto.setText("");
+                    txtPeriodicidad.setText("");
                 }
             }
         });
@@ -92,6 +105,7 @@ public class FrontEnd extends JFrame {
         super.add(ckIsIngreso);
         super.add(salvar);
         super.add(reporte);
+        super.add(lblWarnings);
     }
     }
 
