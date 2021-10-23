@@ -8,9 +8,14 @@ public class FileRepository implements InterfaceRepository{
     private final String FILE_PATH = "db.txt"; //En el momento que le de un valor, no lo puedo cambiar... Ahí queda x ser private
 
     @Override
-    public boolean save(String text) {
+    public boolean save(String text) throws ErrorMuyPocaData {
+
+        if (text.replace(" - ", "").replace("INGRESO: ", "").trim().length() < 5){
+            throw new ErrorMuyPocaData(text);
+        }
         try (FileWriter fileWriter = new FileWriter(this.FILE_PATH, true);
              BufferedWriter writer = new BufferedWriter(fileWriter)) {
+
             writer.append(text).append("\n");
             return true;
         }catch (IOException e){

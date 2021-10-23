@@ -1,7 +1,7 @@
 package com.Presupuesto.repo;
 
 public interface InterfaceRepository {
-    public boolean save (String text);
+    boolean save (String text) throws ErrorMuyPocaData;
 
-    void read();
+    void read ();
 }

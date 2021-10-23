@@ -1,7 +1,9 @@
 package com.Presupuesto.ui;
 
+import com.Presupuesto.LogicaNegocio.FormatoInvalido;
 import com.Presupuesto.LogicaNegocio.ImplementacionRegistro;
 import com.Presupuesto.LogicaNegocio.InterfaceRegistro;
+import com.Presupuesto.repo.ErrorMuyPocaData;
 import com.Presupuesto.repo.FileRepository;
 
 import javax.swing.*;
@@ -17,36 +19,24 @@ public class FrontEnd extends JFrame {
         super.setSize(400, 300);
         super.setLayout(new GridLayout(8,2));
     }
-
     public void build(){
         InterfaceRegistro registo = new ImplementacionRegistro(new FileRepository());
-
         // Create Components
         JLabel lblNombre = new JLabel("Nombre");
         JTextField txtNombre = new JTextField();
-
         JLabel lblMoneda = new JLabel("Moneda");
         JTextField txtMoneda = new JTextField();
-
         JLabel lblCategoria = new JLabel("Categoria");
         JTextField txtCategoria = new JTextField();
-
         JLabel lblMonto = new JLabel("Monto");
         JTextField txtMonto = new JTextField();
-
         JLabel lblPeriodicidad = new JLabel("Periodicidad");
         JTextField txtPeriodicidad = new JTextField();
-
         JCheckBox ckIsIngreso = new JCheckBox("Es un Ingreso?");
         ckIsIngreso.setSelected(true);
-
         JButton salvar = new JButton("Salvar");
         JButton reporte = new JButton("Reporte");
-
         JLabel lblWarnings = new JLabel("");
-
-
-
         // ACTIONS
         ckIsIngreso.addActionListener(new AbstractAction() {
             @Override
@@ -55,43 +45,46 @@ public class FrontEnd extends JFrame {
                 txtPeriodicidad.setVisible(!txtPeriodicidad.isVisible());
             }
         });
-
         salvar.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean exitoso = false;
-                if (ckIsIngreso.isSelected()){
-                    lblWarnings.setText("Salvando Ingreso");
-                     exitoso = registo.addIngreso(txtNombre.getText(),
-                            txtMoneda.getText(),
-                            txtCategoria.getText(),
-                            txtMonto.getText(),
-                            txtPeriodicidad.getText());
-                }else {
-                    lblWarnings.setText("Salvando Gasto");
-                   exitoso = registo.addGasto(txtNombre.getText(),
-                            txtMoneda.getText(),
-                            txtCategoria.getText(),
-                            txtMonto.getText());
-                }
-                if(exitoso){
-                    txtMoneda.setText("");
-                    txtNombre.setText("");
-                    txtCategoria.setText("");
-                    txtMonto.setText("");
-                    txtPeriodicidad.setText("");
-                }
-            }
-        });
-        reporte.addActionListener(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                registo.getGastos();
-                registo.getMovimientos();
-            }
-        });
+                boolean exitoso;
+                    try {
+                        if (ckIsIngreso.isSelected()) {
+                            lblWarnings.setText("Salvando Ingreso");
+                            exitoso = registo.addIngreso(txtNombre.getText(),
+                                    txtMoneda.getText(),
+                                    txtCategoria.getText(),
+                                    txtMonto.getText(),
+                                    txtPeriodicidad.getText());
+                        } else {
+                            lblWarnings.setText("Salvando Gasto");
+                            exitoso = registo.addGasto(txtNombre.getText(),
+                                    txtMoneda.getText(),
+                                    txtCategoria.getText(),
+                                    txtMonto.getText());
+                        }
+                        if (exitoso) {
+                            txtNombre.setText("");
+                            txtMoneda.setText("");
+                            txtCategoria.setText("");
+                            txtMonto.setText("");
+                            txtPeriodicidad.setText("");
+                        }
+                    }catch (FormatoInvalido | ErrorMuyPocaData error){
+                        JOptionPane.showMessageDialog(null, error.getMessage());
 
-        // AGREGAR AL CONTAINER
+                    }
+                }
+            });
+        reporte.addActionListener(new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    registo.getGastos();
+                    registo.getMovimientos();
+                }
+            });
+            // Add into the Container
         super.add(lblNombre);
         super.add(txtNombre);
         super.add(lblMoneda);
@@ -106,7 +99,8 @@ public class FrontEnd extends JFrame {
         super.add(salvar);
         super.add(reporte);
         super.add(lblWarnings);
-    }
+        }
+
     }
 
 
