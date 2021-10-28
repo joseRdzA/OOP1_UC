@@ -1,5 +1,9 @@
 package com.Presupuesto.LogicaNegocio;
 
+import java.util.List;
+
 public interface InterfaceReportes {
-  void imprimirReporte();
+  List<String> getMovimientos();
+
+  void getGastos();
 }

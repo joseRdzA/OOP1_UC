@@ -18,16 +18,16 @@ public class InMemoryRepository implements InterfaceRepository{
     }
 
     @Override
-    public void read() {
+    public List<String> read() {
 
         try {
             throw new IOException();
         } catch (IOException | NullPointerException ex) {
             ex.printStackTrace();
         }
-
         for (String item : this.movimientos){
             System.out.println(item);
         }
+        return null;
     }
 }

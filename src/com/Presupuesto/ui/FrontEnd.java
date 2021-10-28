@@ -1,8 +1,6 @@
 package com.Presupuesto.ui;
 
-import com.Presupuesto.LogicaNegocio.FormatoInvalido;
-import com.Presupuesto.LogicaNegocio.ImplementacionRegistro;
-import com.Presupuesto.LogicaNegocio.InterfaceRegistro;
+import com.Presupuesto.LogicaNegocio.*;
 import com.Presupuesto.repo.ErrorMuyPocaData;
 import com.Presupuesto.repo.FileRepository;
 
@@ -20,7 +18,10 @@ public class FrontEnd extends JFrame {
         super.setLayout(new GridLayout(8,2));
     }
     public void build(){
+
         InterfaceRegistro registo = new ImplementacionRegistro(new FileRepository());
+        InterfaceReportes reportes = new ImplementacionReportes(new FileRepository());
+
         // Create Components
         JLabel lblNombre = new JLabel("Nombre");
         JTextField txtNombre = new JTextField();
@@ -49,42 +50,45 @@ public class FrontEnd extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean exitoso;
-                    try {
-                        if (ckIsIngreso.isSelected()) {
-                            lblWarnings.setText("Salvando Ingreso");
-                            exitoso = registo.addIngreso(txtNombre.getText(),
-                                    txtMoneda.getText(),
-                                    txtCategoria.getText(),
-                                    txtMonto.getText(),
-                                    txtPeriodicidad.getText());
-                        } else {
-                            lblWarnings.setText("Salvando Gasto");
-                            exitoso = registo.addGasto(txtNombre.getText(),
-                                    txtMoneda.getText(),
-                                    txtCategoria.getText(),
-                                    txtMonto.getText());
-                        }
-                        if (exitoso) {
-                            txtNombre.setText("");
-                            txtMoneda.setText("");
-                            txtCategoria.setText("");
-                            txtMonto.setText("");
-                            txtPeriodicidad.setText("");
-                        }
-                    }catch (FormatoInvalido | ErrorMuyPocaData error){
-                        JOptionPane.showMessageDialog(null, error.getMessage());
-
+                try {
+                    if (ckIsIngreso.isSelected()) {
+                        lblWarnings.setText("Salvando Ingreso");
+                        exitoso = registo.addIngreso(txtNombre.getText(),
+                                txtMoneda.getText(),
+                                txtCategoria.getText(),
+                                txtMonto.getText(),
+                                txtPeriodicidad.getText());
+                    } else {
+                        lblWarnings.setText("Salvando Gasto");
+                        exitoso = registo.addGasto(txtNombre.getText(),
+                                txtMoneda.getText(),
+                                txtCategoria.getText(),
+                                txtMonto.getText());
                     }
+                    if (exitoso) {
+                        txtNombre.setText("");
+                        txtMoneda.setText("");
+                        txtCategoria.setText("");
+                        txtMonto.setText("");
+                        txtPeriodicidad.setText("");
+                    }
+                }catch (FormatoInvalido | ErrorMuyPocaData error){
+                    JOptionPane.showMessageDialog(null, error.getMessage());
                 }
-            });
+            }
+        });
         reporte.addActionListener(new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    registo.getGastos();
-                    registo.getMovimientos();
-                }
-            });
-            // Add into the Container
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                reportes.getGastos();
+
+                JOptionPane.showMessageDialog(FrontEnd.super.rootPane, String.join("", reportes.getMovimientos()));
+
+            }
+        });
+
+        // Add into the Container
         super.add(lblNombre);
         super.add(txtNombre);
         super.add(lblMoneda);
@@ -99,7 +103,7 @@ public class FrontEnd extends JFrame {
         super.add(salvar);
         super.add(reporte);
         super.add(lblWarnings);
-        }
+    }
 
     }
 
